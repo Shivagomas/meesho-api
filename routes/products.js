@@ -2,7 +2,21 @@ const express = require('express');
 const { Category } = require('../models/category');
 const { Product, validate } = require('../models/products');
 const router = express.Router();
+const multer = require('multer');
 
+/*
+const Storage = multer.diskStorage({
+    destination: "uploads/",
+    filename: (req,file,cb) => {
+      cb(null,Date.now() + file.originalname)
+    }
+  })
+
+const upload = multer({
+    storage: Storage
+})
+
+*/
 
 router.get("/", async(req,res) => {
     const products = await Product.find().sort('name');
@@ -31,10 +45,12 @@ router.post("/", async(req,res) => {
             name: category.name
         },
         price: req.body.price,
-        inStock: req.body.inStock
+        inStock: req.body.inStock,
     });
+
     await product.save();
     return res.send(product);
+
 });
 
 router.put("/:id", async(req,res) => {

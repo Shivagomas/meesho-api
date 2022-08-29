@@ -44,11 +44,10 @@ function validateProduct(product) {
         description: Joi.string().required(),
         categoryId: Joi.objectid().required(),
         price: Joi.number().required(),
-        inStock: Joi.boolean().required()
+        inStock: Joi.boolean().required(),
     });
     return schema.validate(product);
 };
 
 exports.Product = Product;
 exports.validate = validateProduct;
-

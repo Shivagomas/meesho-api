@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('config');
+const cors = require('cors');
+const multer = require('multer');
 
 const home = require('./routes/home');
 const category = require('./routes/categories');
@@ -16,10 +18,12 @@ const winston = require('winston');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
 
+app.use(cors());
+
 app.use("/", home);
 app.use("/api/category",category);
 app.use("/api/products", product);
-app.use('/api/users', user);
+app.use('/api/user', user);
 app.use('/api/auth',auth);
 
 if(!config.get("jwtPrivateKey")) {
@@ -27,6 +31,7 @@ if(!config.get("jwtPrivateKey")) {
     process.exit(1);
 }
 
+// image uploads
 process.on('uncaughtException', (ex) => {
     winston.error(ex.message,ex);
     process.exit(1)
